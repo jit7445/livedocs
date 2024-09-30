@@ -12,24 +12,23 @@ import { updateDocument } from '@/lib/actions/room.actions';
 import Loader from './Loader';
 import ShareModal from './ShareModel';
 
-
 const CollaborativeRoom = ({ roomId, roomMetadata, users, currentUserType }: CollaborativeRoomProps) => {
   const [documentTitle, setDocumentTitle] = useState(roomMetadata.title);
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);  // Fixed ref type
 
   const updateTitleHandler = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if(e.key === 'Enter') {
+    if (e.key === 'Enter') {
       setLoading(true);
 
       try {
-        if(documentTitle !== roomMetadata.title) {
+        if (documentTitle !== roomMetadata.title) {
           const updatedDocument = await updateDocument(roomId, documentTitle);
           
-          if(updatedDocument) {
+          if (updatedDocument) {
             setEditing(false);
           }
         }
@@ -43,7 +42,7 @@ const CollaborativeRoom = ({ roomId, roomMetadata, users, currentUserType }: Col
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if(containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setEditing(false);
         updateDocument(roomId, documentTitle);
       }
@@ -57,11 +56,10 @@ const CollaborativeRoom = ({ roomId, roomMetadata, users, currentUserType }: Col
   }, [roomId, documentTitle])
 
   useEffect(() => {
-    if(editing && inputRef.current) {
+    if (editing && inputRef.current) {
       inputRef.current.focus();
     }
   }, [editing])
-  
 
   return (
     <RoomProvider id={roomId}>
@@ -73,11 +71,11 @@ const CollaborativeRoom = ({ roomId, roomMetadata, users, currentUserType }: Col
                 <Input 
                   type="text"
                   value={documentTitle}
-                  ref={inputRef}
+                  ref={inputRef}  // Fixed ref usage for input
                   placeholder="Enter title"
                   onChange={(e) => setDocumentTitle(e.target.value)}
                   onKeyDown={updateTitleHandler}
-                  disable={!editing}
+                  disabled={!editing}  // Fixed "disabled" attribute
                   className="document-title-input"
                 />
               ) : (
@@ -121,11 +119,11 @@ const CollaborativeRoom = ({ roomId, roomMetadata, users, currentUserType }: Col
               </SignedIn>
             </div>
           </Header>
-        <Editor roomId={roomId} currentUserType={currentUserType} />
+          <Editor roomId={roomId} currentUserType={currentUserType} />
         </div>
       </ClientSideSuspense>
     </RoomProvider>
   )
 }
 
-export default CollaborativeRoom
+export default CollaborativeRoom;
