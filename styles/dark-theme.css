@@ -54,24 +54,39 @@ body {
   line-height: 20px;
   font-weight: 400;
   text-align: left;
+  position: relative;
 }
 
 .editor-inner {
   background: #0b1527;
-  position: relative;
+  /* background-color: #690; */
+  position:absolute;
+ 
 }
 
 .editor-input {
   min-height: 400px;
+  margin-top: 0px;
   resize: none;
   font-size: 15px;
   caret-color: rgb(5, 5, 5);
-  position: relative;
+ /* min-width: 400px; */
+  /* background-color: #905; */
+  /* position:absolute; */
   tab-size: 1;
   outline: 0;
   padding: 40px;
   caret-color: #444;
   color: #b4c6ee;
+}
+@media screen and (min-width: 238px) and (max-width: 1024px) {
+  .editor-inner {
+    background: #0b1527;
+    /* background-color: #690; */
+    position:absolute;
+    margin-top: 40rem;
+   
+  }
 }
 
 .editor-placeholder {
